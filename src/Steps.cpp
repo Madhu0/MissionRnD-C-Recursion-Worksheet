@@ -23,8 +23,26 @@
 */
 #include "stdafx.h"
 
+int recursive_func(int s, int count){
+	if (s == 0){
+		count++;
+		return count;
+	}
+	else if (s < 0)
+		return count;
+	else{
+		count=recursive_func(s - 1, count);
+		count=recursive_func(s - 2, count);
+	}
+}
+
 
 int get_steps(int s)
 {
-	return 0;
+	int count = 0;
+	if (s < 1)
+		return 0;
+	else
+		count=recursive_func(s, count);
+	return count;
 }

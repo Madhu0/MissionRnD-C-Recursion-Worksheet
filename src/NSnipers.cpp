@@ -43,6 +43,48 @@ P.S: The Above Problem is just a modified version of a popular BackTracking prob
 */
 
 #include "stdafx.h"
+
+int check_place(int *field, int n, int row, int column){
+	int i, j;
+	for (i = 0; i <= row; i++){
+		if (field[(i*n) + column])
+			return 0;
+	}
+	for (i = row, j = column; i >= 0 && j >= 0; i--, j--){
+		if (field[(i*n) + j])
+			return 0;
+	}
+	for (i = row, j = column; i < n&&j >= 0; i++, j--){
+		if (field[(i*n) + j])
+			return 0;
+	}
+	for (i = row, j = column; i >= 0 && j < n; i--, j++){
+		if (field[(i*n) + j])
+			return 0;
+	}
+	return 1;
+}
+
+int place_sniper(int *field, int n, int row){
+	int i;
+	if (row >= n)
+		return 1;
+	for (i = 0; i < n; i++){
+		if (check_place(field, n, row, i)){
+			field[(row*n) + i] = 1;
+			if (place_sniper(field, n, row + 1))
+				return 1;
+			field[(row*n) + i] = 0;
+		}
+	}
+	return 0;
+}
+
+
 int solve_nsnipers(int *battlefield, int n){
+	if (battlefield == NULL)
+		return 0;
+	if (place_sniper(battlefield, n, 0))
+		return 1;
 	return 0;
 }
